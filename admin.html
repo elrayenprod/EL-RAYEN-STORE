@@ -4,175 +4,116 @@
     <meta charset="UTF-8">
     <title>EL RAYEN | Management Suite</title>
     <style>
-        :root {
-            --gold: #c59e4b;
-            --dark-green: #2a473c;
-            --light-gold: #d1b372;
-            --deep-green: #3d6757;
-        }
+        :root { --gold: #c59e4b; --dark-green: #2a473c; --deep-green: #3d6757; }
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: #f4f4f4; overflow-x: hidden; }
 
-        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: #f4f4f4; }
-
-        /* --- VIDEO INTRO SCREEN --- */
+        /* INTRO VIDEO EFFECT */
         #splash-screen {
-            position: fixed;
-            width: 100%; height: 100vh;
-            background: var(--dark-green);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 1s ease-out;
+            position: fixed; width: 100%; height: 100vh; background: var(--dark-green);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999; transition: opacity 1s;
         }
+        .logo-intro { width: 150px; height: 150px; border: 4px solid var(--gold); border-radius: 50%; background: white; animation: pulse 2s infinite; }
+        .logo-intro img { width: 100%; border-radius: 50%; }
+        @keyframes pulse { 0% { transform: scale(0.9); } 70% { transform: scale(1); } 100% { transform: scale(0.9); } }
 
-        .logo-intro {
-            width: 180px; height: 180px;
-            border: 4px solid var(--gold);
-            border-radius: 50%;
-            padding: 10px;
-            background: white;
-            animation: pulse-ring 2s infinite;
-        }
-
-        .logo-intro img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
-
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(197, 158, 75, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 25px rgba(197, 158, 75, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(197, 158, 75, 0); }
-        }
-
-        /* --- DASHBOARD LAYOUT --- */
-        #main-app { display: none; }
+        /* DASHBOARD LAYOUT */
+        #main-app { display: none; display: flex; }
+        .sidebar { width: 280px; background: var(--dark-green); height: 100vh; color: white; padding: 20px; position: fixed; }
+        .sidebar-logo { text-align: center; border-bottom: 1px solid var(--gold); padding-bottom: 20px; margin-bottom: 20px; }
+        .sidebar-logo img { width: 80px; border-radius: 50%; border: 2px solid var(--gold); background: white; }
         
-        .sidebar {
-            width: 260px;
-            background: var(--dark-green);
-            height: 100vh;
-            position: fixed;
-            left: 0; top: 0;
-            color: white;
-            padding: 25px;
-            box-sizing: border-box;
-        }
-
-        /* TOP LEFT LOGO POSITION */
-        .sidebar-logo {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--gold);
-        }
-
-        .sidebar-logo img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            background: white;
-        }
-
-        .content { margin-left: 260px; padding: 40px; background: #f9f6f0; min-height: 100vh; }
+        .nav-item { padding: 12px; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-bottom: 5px; }
+        .nav-item:hover { background: var(--deep-green); color: var(--gold); }
         
-        .card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            margin-bottom: 30px; 
-            border-left: 5px solid var(--gold); 
-        }
-
-        button { 
-            background: var(--gold); 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            transition: 0.3s;
-        }
-
-        button:hover { background: var(--dark-green); transform: translateY(-2px); }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .content { margin-left: 280px; padding: 40px; width: 100%; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border-left: 5px solid var(--gold); }
+        
+        button { background: var(--gold); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px 0; }
+        .section-title { color: var(--dark-green); border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
-        <div class="logo-intro">
-            <img src="images/logo.png" alt="Logo">
-        </div>
-        <h1 style="color: var(--gold); letter-spacing: 4px; margin-top: 25px;">EL RAYEN STORE</h1>
-        <p style="color: white; opacity: 0.5;">INITIALIZING DATABASE...</p>
+        <div class="logo-intro"><img src="images/logo.png" alt="Logo"></div>
+        <h1 style="color: var(--gold); margin-top: 20px;">EL RAYEN CONTROL</h1>
     </div>
 
     <div id="main-app">
         <div class="sidebar">
             <div class="sidebar-logo">
-                <img src="images/logo.png" alt="Admin Logo">
-                <h3 style="color: var(--gold); margin-top: 10px;">Admin Panel</h3>
+                <img src="images/logo.png" alt="Logo">
+                <p style="color: var(--gold); font-weight: bold;">System Manager</p>
             </div>
-            <nav>
-                <p>🏠 Dashboard Overview</p>
-                <p>🍰 Manage Sweets</p>
-                <p>🎨 Design & Colors</p>
-                <p>📊 Sales Reports</p>
-            </nav>
+            <div class="nav-item" onclick="showSection('site-mgmt')">⚙️ Site Management</div>
+            <div class="nav-item" onclick="showSection('visibility')">👁️ Site Visibility</div>
+            <div class="nav-item" onclick="showSection('security')">🔒 Login & Security</div>
+            <div class="nav-item" onclick="showSection('violations')">⚠️ Reports & Violations</div>
+            <div class="nav-item" onclick="showSection('support')">🛠️ Support & About</div>
         </div>
 
         <div class="content">
-            <h1 style="color: var(--dark-green);">Store Manager</h1>
-            
-            <div class="card">
-                <h3>Redesign Theme Color</h3>
-                <p>Pick a new color for the Header and Sidebar:</p>
-                <input type="color" id="themeColor" value="#2a473c" onchange="changeColor(this.value)">
+            <div id="site-mgmt" class="page">
+                <h2 class="section-title">Site Management</h2>
+                <div class="card">
+                    <h3>General Settings</h3>
+                    <p>Notifications: <input type="checkbox" checked> Enabled</p>
+                    <p>Privacy & Data: <button>Manage Data Storage</button></p>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>Quick Add Product</h3>
-                <input type="text" id="pName" placeholder="Product Name">
-                <input type="number" id="pPrice" placeholder="Price (DZD)">
-                <select id="pCat">
-                    <option>Baklava</option>
-                    <option>Makrout</option>
-                    <option>Sable</option>
-                    <option>Ghraibia</option>
-                </select>
-                <button onclick="addProduct()">Publish to Live Store</button>
+            <div id="visibility" class="page" style="display:none;">
+                <h2 class="section-title">Site Visibility</h2>
+                <div class="card">
+                    <p>Current Status: <strong style="color: green;">PUBLIC</strong></p>
+                    <button onclick="alert('Site is now Private')">Switch to Private</button>
+                </div>
+            </div>
+
+            <div id="security" class="page" style="display:none;">
+                <h2 class="section-title">Login & Security</h2>
+                <div class="card">
+                    <button>➕ Add Account</button><br>
+                    <button>🔑 Change Admin Password</button><br>
+                    <button style="background: #e74c3c;" onclick="location.reload()">🚪 Log Out</button>
+                </div>
+            </div>
+
+            <div id="violations" class="page" style="display:none;">
+                <h2 class="section-title">Reports & Violations Center</h2>
+                <div class="card">
+                    <p style="color: gray;">No reports or violations found for elrayen-store.github.io</p>
+                </div>
+            </div>
+
+            <div id="support" class="page" style="display:none;">
+                <h2 class="section-title">Support & About</h2>
+                <div class="card">
+                    <p><strong>Terms of Service</strong></p>
+                    <p><strong>Privacy Policy</strong></p>
+                    <p><strong>About:</strong> EL RAYEN v1.2 (Algeria Edition)</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Intro Video Logic
-        window.addEventListener('load', () => {
+        // Intro Animation
+        window.onload = () => {
             setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
+                document.getElementById('splash-screen').style.opacity = '0';
                 setTimeout(() => {
-                    splash.style.display = 'none';
-                    document.getElementById('main-app').style.display = 'block';
+                    document.getElementById('splash-screen').style.display = 'none';
+                    document.getElementById('main-app').style.display = 'flex';
                 }, 1000);
-            }, 3000); 
-        });
+            }, 3000);
+        };
 
-        function changeColor(color) {
-            localStorage.setItem('elRayen_PrimaryColor', color);
-            alert("Design updated! Refresh your store to see changes.");
-        }
-
-        function addProduct() {
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
-            const category = document.getElementById('pCat').value;
-            if(!name || !price) return alert("Fill all fields");
-
-            const newProduct = { id: Date.now(), name, price, category };
-            let products = JSON.parse(localStorage.getItem('customProducts')) || [];
-            products.push(newProduct);
-            localStorage.setItem('customProducts', JSON.stringify(products));
-            alert("Success! Item published.");
+        // Navigation Logic
+        function showSection(id) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
         }
     </script>
 </body>
