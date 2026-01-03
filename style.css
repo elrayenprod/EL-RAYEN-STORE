@@ -88,3 +88,21 @@ button:hover {
 .contact-form button:hover {
     background-color: #a78336;
 }
+.search-container {
+    margin-top: 15px;
+}
+
+#searchBar {
+    width: 60%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 2px solid #c59e4b; /* Your Gold color */
+    font-size: 16px;
+    outline: none;
+    background-color: #f9f6f0;
+}
+
+#searchBar:focus {
+    border-color: #d1b372;
+    box-shadow: 0 0 8px rgba(197, 158, 75, 0.5);
+}

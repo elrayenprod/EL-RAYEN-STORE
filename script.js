@@ -45,3 +45,26 @@ function clearCart() {
 
 // Show cart on load
 displayCart();
+function searchProducts() {
+    // Get what the user typed
+    let input = document.getElementById('searchBar').value.toLowerCase();
+    
+    // Filter the products array
+    const filteredProducts = products.filter(product => {
+        return product.name.toLowerCase().includes(input);
+    });
+
+    // Clear the current list and show only filtered items
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = ''; // Clear current display
+
+    filteredProducts.forEach(product => {
+        productList.innerHTML += `
+            <div class="product-card">
+                <h3>${product.name}</h3>
+                <p style="color: #a78336; font-weight: bold;">${product.price} DZD</p>
+                <button onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        `;
+    });
+}
