@@ -2,118 +2,136 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EL RAYEN | Management Suite</title>
     <style>
-        :root { --gold: #c59e4b; --dark-green: #2a473c; --deep-green: #3d6757; }
-        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: #f4f4f4; overflow-x: hidden; }
+        :root { --gold: #c59e4b; --dark-green: #2a473c; --deep-green: #3d6757; --white: #ffffff; }
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; overflow: hidden; }
 
-        /* INTRO VIDEO EFFECT */
+        /* INTRO VIDEO SPLASH */
         #splash-screen {
             position: fixed; width: 100%; height: 100vh; background: var(--dark-green);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 1s;
+            z-index: 9999; transition: opacity 0.8s ease-in-out;
         }
-        .logo-intro { width: 150px; height: 150px; border: 4px solid var(--gold); border-radius: 50%; background: white; animation: pulse 2s infinite; }
-        .logo-intro img { width: 100%; border-radius: 50%; }
-        @keyframes pulse { 0% { transform: scale(0.9); } 70% { transform: scale(1); } 100% { transform: scale(0.9); } }
+        .logo-circle { width: 140px; height: 140px; border: 4px solid var(--gold); border-radius: 50%; background: white; padding: 5px; animation: pulse 2s infinite; }
+        .logo-circle img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
 
-        /* DASHBOARD LAYOUT */
-        #main-app { display: none; display: flex; }
-        .sidebar { width: 280px; background: var(--dark-green); height: 100vh; color: white; padding: 20px; position: fixed; }
-        .sidebar-logo { text-align: center; border-bottom: 1px solid var(--gold); padding-bottom: 20px; margin-bottom: 20px; }
-        .sidebar-logo img { width: 80px; border-radius: 50%; border: 2px solid var(--gold); background: white; }
+        /* MAIN APP LAYOUT */
+        #main-app { display: none; height: 100vh; width: 100vw; }
+        .sidebar { width: 280px; background: var(--dark-green); color: white; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0,0,0,0.2); }
+        .sidebar-header { padding: 30px; text-align: center; border-bottom: 1px solid var(--deep-green); }
+        .sidebar-header img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; background: white; }
         
-        .nav-item { padding: 12px; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-bottom: 5px; }
-        .nav-item:hover { background: var(--deep-green); color: var(--gold); }
+        .nav-menu { flex-grow: 1; padding: 20px 10px; }
+        .nav-btn { padding: 15px; margin-bottom: 5px; cursor: pointer; border-radius: 8px; transition: 0.3s; display: flex; align-items: center; }
+        .nav-btn:hover { background: var(--deep-green); color: var(--gold); }
+        .nav-btn.active { background: var(--gold); color: white; }
+
+        .content-area { flex-grow: 1; padding: 40px; overflow-y: auto; background: #f8f9fa; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px; border-left: 6px solid var(--gold); }
         
-        .content { margin-left: 280px; padding: 40px; width: 100%; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border-left: 5px solid var(--gold); }
-        
-        button { background: var(--gold); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px 0; }
-        .section-title { color: var(--dark-green); border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
+        h2 { color: var(--dark-green); margin-top: 0; }
+        button { background: var(--gold); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-right: 10px; transition: 0.2s; }
+        button:hover { background: var(--dark-green); transform: translateY(-2px); }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
-        <div class="logo-intro"><img src="images/logo.png" alt="Logo"></div>
-        <h1 style="color: var(--gold); margin-top: 20px;">EL RAYEN CONTROL</h1>
+        <div class="logo-circle"><img src="images/logo.png" alt="EL RAYEN"></div>
+        <h1 style="color: var(--gold); letter-spacing: 5px; margin-top: 20px;">EL RAYEN</h1>
+        <p style="color: white; opacity: 0.7;">SECURE ACCESS STARTING...</p>
     </div>
 
     <div id="main-app">
         <div class="sidebar">
-            <div class="sidebar-logo">
+            <div class="sidebar-header">
                 <img src="images/logo.png" alt="Logo">
-                <p style="color: var(--gold); font-weight: bold;">System Manager</p>
+                <div style="color: var(--gold); font-weight: bold; font-size: 18px;">ADMIN SUITE</div>
             </div>
-            <div class="nav-item" onclick="showSection('site-mgmt')">⚙️ Site Management</div>
-            <div class="nav-item" onclick="showSection('visibility')">👁️ Site Visibility</div>
-            <div class="nav-item" onclick="showSection('security')">🔒 Login & Security</div>
-            <div class="nav-item" onclick="showSection('violations')">⚠️ Reports & Violations</div>
-            <div class="nav-item" onclick="showSection('support')">🛠️ Support & About</div>
+            <div class="nav-menu">
+                <div class="nav-btn active" onclick="showPage('mgmt')">⚙️ Site Management</div>
+                <div class="nav-btn" onclick="showPage('visibility')">👁️ Site Visibility</div>
+                <div class="nav-btn" onclick="showPage('security')">🔒 Security & Login</div>
+                <div class="nav-btn" onclick="showPage('reports')">⚠️ Violations Center</div>
+                <div class="nav-btn" onclick="showPage('support')">🛠️ Support & Legal</div>
+            </div>
+            <div style="padding: 20px; text-align: center; opacity: 0.5; font-size: 12px;">EL RAYEN v1.2.0</div>
         </div>
 
-        <div class="content">
-            <div id="site-mgmt" class="page">
-                <h2 class="section-title">Site Management</h2>
+        <div class="content-area">
+            <div id="mgmt" class="page">
+                <h2>Site Management</h2>
                 <div class="card">
-                    <h3>General Settings</h3>
-                    <p>Notifications: <input type="checkbox" checked> Enabled</p>
-                    <p>Privacy & Data: <button>Manage Data Storage</button></p>
+                    <h3>Notifications</h3>
+                    <p>Alert me for new orders: <input type="checkbox" checked></p>
+                    <button onclick="alert('Settings Saved')">Save Preferences</button>
+                </div>
+                <div class="card">
+                    <h3>Data Control</h3>
+                    <p>Privacy & User Data Export</p>
+                    <button style="background: var(--dark-green);">Download Database</button>
                 </div>
             </div>
 
             <div id="visibility" class="page" style="display:none;">
-                <h2 class="section-title">Site Visibility</h2>
+                <h2>Site Visibility</h2>
                 <div class="card">
-                    <p>Current Status: <strong style="color: green;">PUBLIC</strong></p>
-                    <button onclick="alert('Site is now Private')">Switch to Private</button>
+                    <p>Site Status: <strong style="color: green;">ONLINE</strong></p>
+                    <button onclick="this.innerText='Site is Private'">Go Maintenance Mode</button>
                 </div>
             </div>
 
             <div id="security" class="page" style="display:none;">
-                <h2 class="section-title">Login & Security</h2>
+                <h2>Security & Login</h2>
                 <div class="card">
-                    <button>➕ Add Account</button><br>
-                    <button>🔑 Change Admin Password</button><br>
-                    <button style="background: #e74c3c;" onclick="location.reload()">🚪 Log Out</button>
+                    <button>👤 Add Manager Account</button>
+                    <button>🔑 Reset Password</button>
+                    <hr style="margin: 20px 0; border: 0.5px solid #eee;">
+                    <button style="background: #d9534f;" onclick="location.reload()">🚪 Log Out</button>
                 </div>
             </div>
 
-            <div id="violations" class="page" style="display:none;">
-                <h2 class="section-title">Reports & Violations Center</h2>
+            <div id="reports" class="page" style="display:none;">
+                <h2>Reports & Violations</h2>
                 <div class="card">
-                    <p style="color: gray;">No reports or violations found for elrayen-store.github.io</p>
+                    <p style="color: #666;">No copyright violations or user reports found for your store.</p>
                 </div>
             </div>
 
             <div id="support" class="page" style="display:none;">
-                <h2 class="section-title">Support & About</h2>
+                <h2>Support & Legal</h2>
                 <div class="card">
-                    <p><strong>Terms of Service</strong></p>
-                    <p><strong>Privacy Policy</strong></p>
-                    <p><strong>About:</strong> EL RAYEN v1.2 (Algeria Edition)</p>
+                    <p><strong>Terms of Service:</strong> Standard Algerian E-commerce License.</p>
+                    <p><strong>Privacy Policy:</strong> GDPR Compliant.</p>
+                    <p><strong>About:</strong> Created for EL RAYEN Sweets - Algiers.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Intro Animation
-        window.onload = () => {
+        // Intro Splash Control
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('splash-screen').style.opacity = '0';
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('splash-screen').style.display = 'none';
+                    splash.style.display = 'none';
                     document.getElementById('main-app').style.display = 'flex';
-                }, 1000);
-            }, 3000);
-        };
+                }, 800);
+            }, 3000); // 3 Second Intro Video
+        });
 
-        // Navigation Logic
-        function showSection(id) {
+        // Navigation Control
+        function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(pageId).style.display = 'block';
+            event.currentTarget.classList.add('active');
         }
     </script>
 </body>
