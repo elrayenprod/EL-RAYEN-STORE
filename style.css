@@ -1,0 +1,90 @@
+body {
+    background-color: #f9f6f0; /* Soft off-white */
+    color: #2a473c;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+header {
+    background-color: #2a473c;
+    color: #d1b372;
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 5px solid #c59e4b;
+}
+
+#product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #d1b372;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: #a78336;
+}
+
+button {
+    background-color: #3d6757;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #c59e4b;
+}
+#contact-section {
+    background-color: #2a473c; /* Primary Green */
+    color: #d1b372; /* Light Sand */
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-form input, .contact-form textarea {
+    padding: 12px;
+    border: 1px solid #a78336;
+    border-radius: 4px;
+    background: #f9f6f0;
+}
+
+.contact-form button {
+    background-color: #c59e4b; /* Gold */
+    color: white;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+
+.contact-form button:hover {
+    background-color: #a78336;
+}
