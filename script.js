@@ -1,3 +1,14 @@
+// APPLY ADMIN SETTINGS
+const adminColor = localStorage.getItem('elRayen_PrimaryColor');
+if (adminColor) {
+    document.querySelector('header').style.backgroundColor = adminColor;
+}
+
+// LOAD ADMIN PRODUCTS
+const customItems = JSON.parse(localStorage.getItem('customProducts')) || [];
+if (customItems.length > 0) {
+    products.push(...customItems);
+}
 // ==========================================
 // 1. PRODUCT DATABASE (Algerian Sweets)
 // ==========================================
