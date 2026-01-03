@@ -1,242 +1,118 @@
+/* ==========================================
+   1. CORE STYLES & THEME
+   ========================================== */
+:root {
+    --primary-green: #2a473c;
+    --accent-gold: #c59e4b;
+    --light-sand: #f9f6f0;
+    --deep-gold: #a78336;
+}
+
 body {
-    background-color: #f9f6f0; /* Soft off-white */
-    color: #2a473c;
+    background-color: var(--light-sand);
+    color: var(--primary-green);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    line-height: 1.6;
 }
 
+/* ==========================================
+   2. HEADER & NAVIGATION
+   ========================================== */
 header {
-    background-color: #2a473c;
-    color: #d1b372;
-    padding: 2rem;
-    text-align: center;
-    border-bottom: 5px solid #c59e4b;
-}
-
-#product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 40px;
-}
-
-.product-card {
-    background: white;
-    border: 1px solid #d1b372;
-    padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-    transition: transform 0.3s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    border-color: #a78336;
-}
-
-button {
-    background-color: #3d6757;
+    background-color: var(--primary-green);
     color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-button:hover {
-    background-color: #c59e4b;
-}
-#contact-section {
-    background-color: #2a473c; /* Primary Green */
-    color: #d1b372; /* Light Sand */
-    padding: 50px 20px;
-    text-align: center;
-}
-
-.contact-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 1;
-    min-width: 300px;
-}
-
-.contact-form input, .contact-form textarea {
-    padding: 12px;
-    border: 1px solid #a78336;
-    border-radius: 4px;
-    background: #f9f6f0;
-}
-
-.contact-form button {
-    background-color: #c59e4b; /* Gold */
-    color: white;
-    font-weight: bold;
-    border: none;
-    transition: 0.3s;
-}
-
-.contact-form button:hover {
-    background-color: #a78336;
-}
-.search-container {
-    margin-top: 15px;
-}
-
-#searchBar {
-    width: 60%;
-    padding: 12px 20px;
-    border-radius: 25px;
-    border: 2px solid #c59e4b; /* Your Gold color */
-    font-size: 16px;
-    outline: none;
-    background-color: #f9f6f0;
-}
-
-#searchBar:focus {
-    border-color: #d1b372;
-    box-shadow: 0 0 8px rgba(197, 158, 75, 0.5);
-}
-.category-menu {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.cat-btn {
-    background-color: #d1b372; /* Light Sand */
-    color: #2a473c; /* Green */
-    border: 1px solid #a78336;
-    padding: 8px 15px;
-    font-weight: bold;
-    border-radius: 20px;
-    transition: 0.3s;
-}
-
-.cat-btn:hover {
-    background-color: #c59e4b; /* Gold */
-    color: white;
-}
-.social-links {
-    margin-top: 20px;
-}
-
-.social-icon {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-/* WhatsApp Styling */
-.whatsapp {
-    background-color: #25D366; /* WhatsApp Green */
-    color: white;
-}
-
-/* Instagram Styling */
-.instagram {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    color: white;
-}
-
-.social-icon:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
-}
-/* Header Layout */
-header {
+    padding: 1rem 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5%;
-    background: #2a473c; /* Primary Green */
-    color: white;
-    position: relative;
+    border-bottom: 5px solid var(--accent-gold);
+    flex-wrap: wrap;
+}
+
+.logo-area h1 {
+    margin: 0;
+    color: var(--accent-gold);
+    letter-spacing: 2px;
 }
 
 .header-controls {
     display: flex;
-    gap: 15px;
     align-items: center;
+    gap: 20px;
 }
 
-/* Dropdown Buttons */
-.dropbtn {
-    background: #c59e4b; /* Gold */
-    color: white;
+#searchBar {
     padding: 10px 15px;
+    border-radius: 20px;
+    border: 2px solid var(--accent-gold);
+    background: var(--light-sand);
+    outline: none;
+}
+
+.category-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
+    background: white;
+}
+
+.cat-btn {
+    background-color: var(--light-sand);
+    color: var(--primary-green);
+    border: 1px solid var(--accent-gold);
+    padding: 8px 18px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cat-btn:hover {
+    background-color: var(--accent-gold);
+    color: white;
+}
+
+/* ==========================================
+   3. PRODUCT GRID
+   ========================================== */
+#product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 5%;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #eee;
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    transition: 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+}
+
+.product-card button {
+    background-color: var(--primary-green);
+    color: white;
     border: none;
+    padding: 10px 25px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
 }
 
-.dropdown { position: relative; display: inline-block; }
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background: white;
-    min-width: 180px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 10;
-    border-radius: 5px;
-}
-
-.dropdown-content a, .dropdown-content button {
-    color: #2a473c;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    border: none;
-    background: none;
-    text-align: left;
-    cursor: pointer;
-}
-
-.dropdown-content a:hover, .dropdown-content button:hover { background: #f1f1f1; }
-.dropdown:hover .dropdown-content { display: block; }
-
-/* Cart Icon & Counter */
-.cart-wrapper {
-    position: relative;
-    cursor: pointer;
-    font-size: 24px;
-}
-
-#cart-counter {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: #a78336;
-    color: white;
-    font-size: 12px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Cart Side Panel Overlay */
+/* ==========================================
+   4. CART OVERLAY & PANEL
+   ========================================== */
 .cart-overlay {
     display: none;
     position: fixed;
@@ -247,54 +123,106 @@ header {
 
 .cart-panel {
     position: fixed;
-    right: 0;
-    top: 0;
-    width: 350px;
-    height: 100vh; /* Full height of the screen */
+    right: 0; top: 0;
+    width: 380px; height: 100vh;
     background: white;
-    padding: 20px;
-    z-index: 9999;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-
-    /* THE MAGIC FOR THE FOOTER: */
-    display: flex;
-    flex-direction: column; 
-}
-.order-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    z-index: 9999;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+}
+
+.cart-header {
+    padding: 20px;
+    background: var(--primary-green);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cartItemsList {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.customer-info {
+    padding: 20px;
+    background: #f8f8f8;
+    border-top: 1px solid #eee;
+}
+
+.customer-info input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.loc-btn {
+    width: 100%;
+    background: var(--accent-gold);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-footer {
+    padding: 20px;
+    border-top: 2px solid var(--primary-green);
+}
+
+.total-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--primary-green);
 }
 
 .order-options button {
     width: 100%;
-    padding: 15px;
+    margin-bottom: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     color: white;
     font-weight: bold;
     cursor: pointer;
-    font-size: 1rem;
-    transition: 0.3s;
 }
 
-.btn-wa { background-color: #25D366; } /* WhatsApp Green */
-.btn-mail { background-color: #ea4335; } /* Gmail Red */
-.btn-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.btn-wa { background-color: #25D366; }
+.btn-mail { background-color: #ea4335; }
 
-.order-options button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+/* ==========================================
+   5. CONTACT & FOOTER
+   ========================================== */
+#contact-section {
+    background-color: var(--primary-green);
+    color: var(--accent-gold);
+    padding: 50px 5%;
+    text-align: center;
 }
-#cartItemsList {
-    flex-grow: 1; /* This pushes the footer to the bottom */
-    overflow-y: auto; /* Allows scrolling if you have many items */
-    margin: 15px 0;
-    border-bottom: 1px solid #eee;
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
-.cart-footer {
-    margin-top: auto; /* Final insurance to stay at the bottom */
-    padding-top: 15px;
-    border-top: 2px solid #2a473c;
-    background: white;
+
+.social-icon {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
 }
+
+.whatsapp { background-color: #25D366; }
+.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }

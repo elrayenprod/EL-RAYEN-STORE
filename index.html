@@ -4,138 +4,88 @@
     <meta charset="UTF-8">
     <title>EL RAYEN | Algerian Luxury Store</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header>
-    <div class="logo-area">
-        <img src="images/logo.png" alt="EL RAYEN" class="site-logo">
-        <h1>EL RAYEN</h1>
-    </div>
+        <div class="logo-area">
+            <h1>EL RAYEN</h1>
+            <p>Premium Algerian Products</p>
+        </div>
 
-    <div class="header-controls">
-        
-        <div class="dropdown">
-            <button class="dropbtn">🚚 Delivery</button>
-            <div class="dropdown-content">
-                <a href="https://www.google.com/maps/place/Tebessa,+Algeria" target="_blank">📍 Tebessa, Algeria</a>
+        <div class="header-controls">
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
             </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="dropbtn">🌐 Language</button>
-            <div class="dropdown-content">
-                <button onclick="translateSite('ar')">العربية (Arabic)</button>
-                <button onclick="translateSite('fr')">Français (French)</button>
-                <button onclick="translateSite('en')">English</button>
-            </div>
-        </div>
-
-        <div class="cart-wrapper" onclick="openCart()">
-            <span class="cart-icon">🛒</span>
-            <span id="cart-counter">0</span>
-        </div>
-    </div>
-</header>
-
-<div id="cartOverlay" class="cart-overlay">
-    <div class="cart-panel">
-        <div class="cart-header">
-            <h2 style="color: #2a473c;">🛒 Your Selection</h2>
-            <button onclick="closeCart()" class="close-btn" style="font-size:30px; cursor:pointer; background:none; border:none;">&times;</button>
-        </div>
-
-        <div id="cartItemsList"></div>
-
-        <div class="customer-info" style="padding: 15px; background: #f9f9f9; border-radius: 8px; margin-top: 10px;">
-            <h4 style="margin: 0 0 10px 0; color: #2a473c;">Order Details</h4>
-            <input type="text" id="custName" placeholder="Full Name" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
-            <input type="tel" id="custPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
-            <input type="text" id="custAddress" placeholder="Street Address / Building" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
             
-            <div style="border-top: 1px solid #ddd; padding-top: 10px; margin-top: 5px;">
-                <button type="button" onclick="calculateDistance()" style="width: 100%; background: #2a473c; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                    📍 Calculate Delivery Fee
-                </button>
-                <div id="deliveryResults" style="margin-top: 8px; font-size: 13px; font-weight: bold;">
-                    <span id="distDisplay">Distance: -- km</span> | 
-                    <span id="feeDisplay" style="color: #c59e4b;">Fee: 0 DZD</span>
+            <div class="dropdown">
+                <button class="dropbtn">🌐 Language</button>
+                <div class="dropdown-content">
+                    <button onclick="alert('Arabic Coming Soon')">العربية</button>
+                    <button onclick="alert('French Coming Soon')">Français</button>
+                    <button onclick="alert('English Set')">English</button>
+                </div>
+            </div>
+
+            <div class="cart-wrapper" onclick="openCart()">
+                <span class="cart-icon">🛒</span>
+                <span id="cart-counter">0</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="category-menu">
+        <button class="cat-btn" onclick="filterCategory('All')">All</button>
+        <button class="cat-btn" onclick="filterCategory('Baklava')">Baklava</button>
+        <button class="cat-btn" onclick="filterCategory('Makrout')">Makrout</button>
+        <button class="cat-btn" onclick="filterCategory('Sable')">Sable</button>
+        <button class="cat-btn" onclick="filterCategory('Ghraibia')">Ghraibia</button>
+    </nav>
+
+    <main id="product-list"></main>
+
+    <div id="cartOverlay" class="cart-overlay">
+        <div class="cart-panel">
+            <div class="cart-header">
+                <h2>🛒 Your Selection</h2>
+                <button onclick="closeCart()" class="close-btn">×</button>
+            </div>
+
+            <div id="cartItemsList"></div>
+
+            <div class="customer-info">
+                <input type="text" id="custName" placeholder="Full Name">
+                <input type="tel" id="custPhone" placeholder="Phone Number">
+                <input type="text" id="custAddress" placeholder="Street Address">
+                
+                <button type="button" onclick="calculateDistance()" class="loc-btn">📍 Calculate Delivery</button>
+                <div id="deliveryResults">
+                    <span id="distDisplay">Distance: -- km</span> | <span id="feeDisplay">Fee: 0 DZD</span>
                 </div>
                 <input type="hidden" id="deliveryFeeValue" value="0">
             </div>
-        </div>
 
-        <div class="cart-footer" style="margin-top: 15px;">
-            <p style="font-size: 1.3rem; font-weight: bold; text-align: center;">Total: <span id="cartTotalPrice">0</span> DZD</p>
-            <button class="btn-wa" onclick="sendOrder('whatsapp')" style="width:100%; background:#25D366; color:white; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-bottom:10px;">💬 Order via WhatsApp</button>
-        </div>
-
-        <div class="cart-footer" style="border-top: 2px solid #c59e4b; padding-top: 20px;">
-            <div style="background: #f9f6f0; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-                <p style="margin: 5px 0;">Items: <span id="itemsCount">0</span></p>
-                <p style="margin: 5px 0; font-size: 1.4rem; color: #2a473c; font-weight: bold;">
-                    Total: <span id="cartTotalPrice">0</span> DZD
-                </p>
-            </div>
-            
-            <div class="order-options">
-                <button class="btn-wa" onclick="sendOrder('whatsapp')">💬 Order via WhatsApp</button>
-                <button class="btn-mail" onclick="sendOrder('email')">📧 Order via Email</button>
-                <button class="btn-ig" onclick="sendOrder('instagram')">📸 Order via Instagram</button>
+            <div class="cart-footer">
+                <p>Items: <span id="itemsCount">0</span></p>
+                <p class="total-text">Total: <span id="cartTotalPrice">0</span> DZD</p>
+                <div class="order-options">
+                    <button class="btn-wa" onclick="sendOrder('whatsapp')">💬 WhatsApp</button>
+                    <button class="btn-mail" onclick="sendOrder('email')">📧 Email</button>
+                    <button onclick="clearCart()" style="background:#666">Clear Cart</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    <header>
-    <h1>EL RAYEN</h1>
-    <p>Premium Algerian Products</p>
-    <div class="search-container">
-        <input type="text" id="searchBar" placeholder="Search for products (e.g. Dates, Coffee)..." onkeyup="searchProducts()">
-    </div>
-</header>
 
-    <main id="product-list">
-        </main>
-
-    <div class="cart-summary">
-        <h3>Shopping Cart</h3>
-        <div id="cart-items"></div>
-        <p>Total: <span id="total-price">0</span> DZD</p>
-        <button onclick="clearCart()">Clear Cart</button>
-    </div>
+    <section id="contact-section">
+        <h2>Contact Us</h2>
+        <p>📍 Tebessa, Algeria | 📞 +213 (0) 673 48 20 80</p>
+        <div class="social-links">
+            <a href="https://wa.me/213673482080" class="social-icon whatsapp">WhatsApp</a>
+            <a href="https://instagram.com/elrayenprod" class="social-icon instagram">Instagram</a>
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>
-<section id="contact-section">
-    <h2>Contact EL RAYEN</h2>
-    <div class="contact-container">
-        <div class="contact-info">
-            <p>📍 Location: Tebessa, Algeria</p>
-            <p>📞 Phone: +213 (0) 673 48 20 80</p>
-            <p>✉️ Email: elrayenprod@outlook.fr</p>
-            <div class="social-links">
-        <a href="https://wa.me/213673482080" target="_blank" class="social-icon whatsapp">
-            WhatsApp: +213 673 48 20 80
-        </a>
-        <br><br>
-        <a href="https://instagram.com/elrayenprod" target="_blank" class="social-icon instagram">
-            Follow us on Instagram @elrayenprod
-        </a>
-    </div>
-</div>
-        </div>
-        <form class="contact-form">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Your Message" rows="4"></textarea>
-            <button type="submit">Send Message</button>
-        </form>
-    </div>
-</section>
 </html>
-<div class="category-menu">
-    <button class="cat-btn" onclick="filterCategory('All')">All</button>
-    <button class="cat-btn" onclick="filterCategory('Baklava')">Baklava</button>
-    <button class="cat-btn" onclick="filterCategory('Makrout')">Makrout</button>
-    <button class="cat-btn" onclick="filterCategory('Sable')">Sable</button>
-    <button class="cat-btn" onclick="filterCategory('Ghraibia')">Ghraibia</button>
-</div>

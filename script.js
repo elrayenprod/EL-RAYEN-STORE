@@ -1,16 +1,5 @@
-// APPLY ADMIN SETTINGS
-const adminColor = localStorage.getItem('elRayen_PrimaryColor');
-if (adminColor) {
-    document.querySelector('header').style.backgroundColor = adminColor;
-}
-
-// LOAD ADMIN PRODUCTS
-const customItems = JSON.parse(localStorage.getItem('customProducts')) || [];
-if (customItems.length > 0) {
-    products.push(...customItems);
-}
 // ==========================================
-// 1. PRODUCT DATABASE (Algerian Sweets)
+// 1. PRODUCT DATABASE & INITIALIZATION
 // ==========================================
 const products = [
     { id: 1, name: "Premium Baklava", price: 1500, category: "Baklava" },
@@ -20,16 +9,31 @@ const products = [
     { id: 5, name: "Honey Baklava", price: 1800, category: "Baklava" }
 ];
 
-const productList = document.getElementById('product-list');
+const MY_SHOP_LOCATION = { lat: 35.40, lng: 8.12 }; // Tebessa coordinates
+let myCart = JSON.parse(localStorage.getItem('elRayenCart')) || [];
+
+window.onload = function() {
+    const customItems = JSON.parse(localStorage.getItem('customProducts')) || [];
+    if (customItems.length > 0) {
+        products.push(...customItems);
+    }
+    
+    const adminColor = localStorage.getItem('elRayen_PrimaryColor');
+    if (adminColor) {
+        document.querySelector('header').style.backgroundColor = adminColor;
+    }
+
+    displayProducts(products);
+    updateCounter();
+};
 
 // ==========================================
-// 2. CORE DISPLAY FUNCTION
+// 2. CORE DISPLAY & FILTER FUNCTIONS
 // ==========================================
 function displayProducts(productsToDisplay) {
-    // Clear the current display
+    const productList = document.getElementById('product-list');
     productList.innerHTML = ''; 
     
-    // If no products found, show a message
     if (productsToDisplay.length === 0) {
         productList.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No products found.</p>';
         return;
@@ -46,18 +50,12 @@ function displayProducts(productsToDisplay) {
     });
 }
 
-// ==========================================
-// 3. SEARCH & CATEGORY FILTERS
-// ==========================================
-
-// Function for the Search Bar
 function searchProducts() {
     let input = document.getElementById('searchBar').value.toLowerCase();
     const filtered = products.filter(p => p.name.toLowerCase().includes(input));
     displayProducts(filtered);
 }
 
-// Function for Category Buttons
 function filterCategory(categoryName) {
     const filtered = (categoryName === 'All') 
         ? products 
@@ -66,56 +64,26 @@ function filterCategory(categoryName) {
 }
 
 // ==========================================
-// 4. SHOPPING CART (LocalStorage Database)
+// 3. CART SYSTEM
 // ==========================================
-
 function addToCart(productId) {
-    // Get existing cart or create empty one
-    let cart = JSON.parse(localStorage.getItem('elRayenCart')) || [];
-    
-    // Find the product in our database
     const item = products.find(p => p.id === productId);
-    
-    // Add to cart and save to local database
-    cart.push(item);
-    localStorage.setItem('elRayenCart', JSON.stringify(cart));
-    
-    // Update the UI
-    displayCart();
+    myCart.push(item);
+    localStorage.setItem('elRayenCart', JSON.stringify(myCart));
+    updateCounter();
     alert(item.name + " added to your cart!");
 }
 
-function displayCart() {
-    const cartItems = document.getElementById('cart-items');
-    const totalSpan = document.getElementById('total-price');
-    
-    // Load from local database
-    let cart = JSON.parse(localStorage.getItem('elRayenCart')) || [];
-    
-    // Update cart list HTML
-    cartItems.innerHTML = cart.map(item => `<p>${item.name} - ${item.price} DZD</p>`).join('');
-    
-    // Calculate total price
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
-    totalSpan.innerText = total;
+function updateCounter() {
+    let subtotal = myCart.reduce((sum, item) => sum + parseInt(item.price), 0);
+    let deliveryFee = parseInt(document.getElementById('deliveryFeeValue')?.value || 0);
+    let finalTotal = subtotal + deliveryFee;
+
+    if(document.getElementById('cart-counter')) document.getElementById('cart-counter').innerText = myCart.length;
+    if(document.getElementById('itemsCount')) document.getElementById('itemsCount').innerText = myCart.length;
+    if(document.getElementById('cartTotalPrice')) document.getElementById('cartTotalPrice').innerText = finalTotal;
 }
 
-function clearCart() {
-    localStorage.removeItem('elRayenCart');
-    displayCart();
-}
-
-// ==========================================
-// 5. SITE INITIALIZATION
-// ==========================================
-// This runs automatically when the page loads
-window.onload = function() {
-    displayProducts(products);
-    displayCart();
-};
-let myCart = [];
-
-// --- 1. CART FUNCTIONS ---
 function openCart() {
     document.getElementById('cartOverlay').style.display = 'block';
     renderCart();
@@ -125,105 +93,6 @@ function closeCart() {
     document.getElementById('cartOverlay').style.display = 'none';
 }
 
-function addToCart(name, price) {
-    myCart.push({ name, price });
-    updateCounter();
-    alert(name + " added to cart!");
-}
-
-function updateCounter() {
-    let subtotal = 0;
-    myCart.forEach(item => {
-        subtotal += parseInt(item.price);
-    });
-
-    // Get Delivery Price from the dropdown
-    let deliveryFee = parseInt(document.getElementById('deliveryZone').value);
-    let finalTotal = subtotal + deliveryFee;
-
-    // Update UI
-    document.getElementById('cart-counter').innerText = myCart.length;
-    document.getElementById('itemsCount').innerText = myCart.length;
-    document.getElementById('cartTotalPrice').innerText = finalTotal;
-}
-
-function sendOrder(platform) {
-    // 1. Validate Inputs
-    const name = document.getElementById('custName').value;
-    const phone = document.getElementById('custPhone').value;
-    const address = document.getElementById('custAddress').value;
-    const zone = document.getElementById('deliveryZone').options[document.getElementById('deliveryZone').selectedIndex].text;
-    const total = document.getElementById('cartTotalPrice').innerText;
-
-    if (!name || !phone || !address) {
-        return alert("Please fill in your Name, Phone, and Address!");
-    }
-    if (myCart.length === 0) return alert("Cart is empty!");
-
-    // 2. Build the Message
-    let message = `*EL RAYEN - NEW ORDER*\n`;
-    message += `----------------------------\n`;
-    message += `👤 *Customer:* ${name}\n`;
-    message += `📞 *Phone:* ${phone}\n`;
-    message += `📍 *Address:* ${address}\n`;
-    message += `🚚 *Zone:* ${zone}\n`;
-    message += `----------------------------\n`;
-    message += `*ITEMS:*\n`;
-    
-    myCart.forEach((item, index) => {
-        message += `${index + 1}. ${item.name} (${item.price} DZD)\n`;
-    });
-
-    message += `----------------------------\n`;
-    message += `💰 *TOTAL TO PAY:* ${total} DZD\n`;
-
-    // 3. Send to Platform
-    const encoded = encodeURIComponent(message);
-    const myPhone = "213XXXXXXXXX"; // <-- PUT YOUR REAL WHATSAPP NUMBER HERE
-
-    if (platform === 'whatsapp') {
-        window.open(`https://wa.me/${myPhone}?text=${encoded}`);
-    } else if (platform === 'email') {
-        window.open(`mailto:your@email.com?subject=Order from ${name}&body=${encoded}`);
-    } else if (platform === 'instagram') {
-        navigator.clipboard.writeText(message);
-        alert("Details copied! Paste them in our IG Direct Message.");
-        window.open("https://instagram.com/your_username");
-    }
-}
-    // 1. Build the Message
-    let total = document.getElementById('cartTotalPrice').innerText;
-    let message = "🍩 *NEW ORDER FROM EL RAYEN STORE*\n";
-    message += "----------------------------\n";
-    
-    myCart.forEach((item, index) => {
-        message += `${index + 1}. ${item.name} - ${item.price} DZD\n`;
-    });
-
-    message += "----------------------------\n";
-    message += `*TOTAL AMOUNT:* ${total} DZD\n`;
-    message += "📍 *Location:* Tebessa, Algeria\n";
-
-    // 2. Save to Admin App (Local Database)
-    let salesData = JSON.parse(localStorage.getItem('elRayenOrders')) || [];
-    salesData.push({ time: new Date().toLocaleString(), total: total, count: myCart.length });
-    localStorage.setItem('elRayenOrders', JSON.stringify(salesData));
-
-    // 3. Send to Platform
-    const encoded = encodeURIComponent(message);
-    const myPhone = "213784788218"; // <-- PUT YOUR WHATSAPP NUMBER HERE
-    const myEmail = "elrayenprod@outlook.fr"; // <-- PUT YOUR EMAIL HERE
-
-    if (platform === 'whatsapp') {
-        window.open(`https://wa.me/${myPhone}?text=${encoded}`);
-    } else if (platform === 'email') {
-        window.open(`mailto:${myEmail}?subject=New Sweet Order&body=${encoded}`);
-    } else if (platform === 'instagram') {
-        navigator.clipboard.writeText(message);
-        alert("Order details copied! Paste them in our Instagram DM.");
-        window.open("https://www.instagram.com/your_username/"); // <-- PUT YOUR IG LINK HERE
-    }
-    
 function renderCart() {
     const list = document.getElementById('cartItemsList');
     if (myCart.length === 0) {
@@ -238,34 +107,28 @@ function renderCart() {
     `).join('');
 }
 
-// --- 2. TRANSLATION FUNCTION ---
-function translateSite(lang) {
-    if(lang === 'ar') {
-        alert("الموقع سيتحول إلى العربية قريبا");
-        // Logic to flip text goes here
-    } else if(lang === 'fr') {
-        alert("Le site sera traduit en Français");
-    } else {
-        alert("Site language set to English");
-    }
+function clearCart() {
+    myCart = [];
+    localStorage.removeItem('elRayenCart');
+    updateCounter();
+    renderCart();
 }
+
+// ==========================================
+// 4. ORDER & LOCATION LOGIC
+// ==========================================
 function calculateDistance() {
     const distText = document.getElementById('distDisplay');
     const feeText = document.getElementById('feeDisplay');
 
-    // 1. Check if the user allows location
-    if (!navigator.geolocation) {
-        return alert("Your browser does not support location services.");
-    }
+    if (!navigator.geolocation) return alert("Geolocation not supported.");
 
-    distText.innerText = "Finding your location...";
+    distText.innerText = "Locating...";
 
     navigator.geolocation.getCurrentPosition((position) => {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
-
-        // 2. Haversine Formula (Calculating distance between two points)
-        const R = 6371; // Earth's radius
+        const R = 6371; 
         const dLat = (userLat - MY_SHOP_LOCATION.lat) * Math.PI / 180;
         const dLon = (userLng - MY_SHOP_LOCATION.lng) * Math.PI / 180;
         const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -273,25 +136,32 @@ function calculateDistance() {
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         const distance = R * c; 
 
-        // 3. THE PRICE LOGIC (30 DZD per KM)
-        let calculatedFee = Math.round(distance * 30);
-        
-        // --- START MINIMUM FEE CHECK ---
-        if (calculatedFee < 50) {
-            calculatedFee = 50; // If they are next door, it's still 50 DZD
-        }
-        // --- END MINIMUM FEE CHECK ---
-
-        // 4. UPDATE THE UI
+        let calculatedFee = Math.max(50, Math.round(distance * 30));
         document.getElementById('deliveryFeeValue').value = calculatedFee;
         distText.innerText = `Distance: ${distance.toFixed(2)} km`;
-        feeText.innerText = `Delivery Fee: ${calculatedFee} DZD`;
-        
-        // This triggers the total price update
+        feeText.innerText = `Fee: ${calculatedFee} DZD`;
         updateCounter();
-        
-    }, (error) => {
-        alert("Please allow location access so we can calculate your delivery fee.");
-        distText.innerText = "Location Error";
     });
+}
+
+function sendOrder(platform) {
+    const name = document.getElementById('custName').value;
+    const phone = document.getElementById('custPhone').value;
+    const address = document.getElementById('custAddress').value;
+    const total = document.getElementById('cartTotalPrice').innerText;
+
+    if (!name || !phone || !address) return alert("Please fill details!");
+    if (myCart.length === 0) return alert("Cart is empty!");
+
+    let message = `*EL RAYEN - NEW ORDER*\n👤 *Customer:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n*ITEMS:*\n`;
+    myCart.forEach((item, i) => message += `${i + 1}. ${item.name} (${item.price} DZD)\n`);
+    message += `💰 *TOTAL:* ${total} DZD`;
+
+    let salesData = JSON.parse(localStorage.getItem('elRayenOrders')) || [];
+    salesData.push({ time: new Date().toLocaleString(), total: total, count: myCart.length });
+    localStorage.setItem('elRayenOrders', JSON.stringify(salesData));
+
+    const encoded = encodeURIComponent(message);
+    if (platform === 'whatsapp') window.open(`https://wa.me/213784788218?text=${encoded}`);
+    if (platform === 'email') window.open(`mailto:elrayenprod@outlook.fr?subject=New Order&body=${encoded}`);
 }
