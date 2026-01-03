@@ -132,19 +132,65 @@ function addToCart(name, price) {
 }
 
 function updateCounter() {
-    let total = 0;
+    let subtotal = 0;
     myCart.forEach(item => {
-        total += parseInt(item.price);
+        subtotal += parseInt(item.price);
     });
 
+    // Get Delivery Price from the dropdown
+    let deliveryFee = parseInt(document.getElementById('deliveryZone').value);
+    let finalTotal = subtotal + deliveryFee;
+
+    // Update UI
     document.getElementById('cart-counter').innerText = myCart.length;
     document.getElementById('itemsCount').innerText = myCart.length;
-    document.getElementById('cartTotalPrice').innerText = total;
+    document.getElementById('cartTotalPrice').innerText = finalTotal;
 }
 
 function sendOrder(platform) {
-    if (myCart.length === 0) return alert("Please add sweets to your cart first!");
+    // 1. Validate Inputs
+    const name = document.getElementById('custName').value;
+    const phone = document.getElementById('custPhone').value;
+    const address = document.getElementById('custAddress').value;
+    const zone = document.getElementById('deliveryZone').options[document.getElementById('deliveryZone').selectedIndex].text;
+    const total = document.getElementById('cartTotalPrice').innerText;
 
+    if (!name || !phone || !address) {
+        return alert("Please fill in your Name, Phone, and Address!");
+    }
+    if (myCart.length === 0) return alert("Cart is empty!");
+
+    // 2. Build the Message
+    let message = `*EL RAYEN - NEW ORDER*\n`;
+    message += `----------------------------\n`;
+    message += `👤 *Customer:* ${name}\n`;
+    message += `📞 *Phone:* ${phone}\n`;
+    message += `📍 *Address:* ${address}\n`;
+    message += `🚚 *Zone:* ${zone}\n`;
+    message += `----------------------------\n`;
+    message += `*ITEMS:*\n`;
+    
+    myCart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name} (${item.price} DZD)\n`;
+    });
+
+    message += `----------------------------\n`;
+    message += `💰 *TOTAL TO PAY:* ${total} DZD\n`;
+
+    // 3. Send to Platform
+    const encoded = encodeURIComponent(message);
+    const myPhone = "213XXXXXXXXX"; // <-- PUT YOUR REAL WHATSAPP NUMBER HERE
+
+    if (platform === 'whatsapp') {
+        window.open(`https://wa.me/${myPhone}?text=${encoded}`);
+    } else if (platform === 'email') {
+        window.open(`mailto:your@email.com?subject=Order from ${name}&body=${encoded}`);
+    } else if (platform === 'instagram') {
+        navigator.clipboard.writeText(message);
+        alert("Details copied! Paste them in our IG Direct Message.");
+        window.open("https://instagram.com/your_username");
+    }
+}
     // 1. Build the Message
     let total = document.getElementById('cartTotalPrice').innerText;
     let message = "🍩 *NEW ORDER FROM EL RAYEN STORE*\n";
@@ -177,8 +223,7 @@ function sendOrder(platform) {
         alert("Order details copied! Paste them in our Instagram DM.");
         window.open("https://www.instagram.com/your_username/"); // <-- PUT YOUR IG LINK HERE
     }
-}
-
+    
 function renderCart() {
     const list = document.getElementById('cartItemsList');
     if (myCart.length === 0) {

@@ -47,7 +47,21 @@
         <div id="cartItemsList" style="height: 60vh; overflow-y: auto; margin: 20px 0; border-top: 1px solid #eee;">
             <p style="text-align:center; color:gray; margin-top: 20px;">Your cart is empty.</p>
         </div>
-
+<div class="customer-info" style="padding: 15px; background: #f4f4f4; border-radius: 8px; margin-bottom: 15px;">
+    <h4 style="margin-top:0; color: #2a473c;">Order Details</h4>
+    <input type="text" id="custName" placeholder="Full Name" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
+    <input type="tel" id="custPhone" placeholder="Phone Number" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
+    <input type="text" id="custAddress" placeholder="Specific Address (Street/House)" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
+    
+    <label style="font-size: 14px; font-weight: bold;">Select Delivery Zone:</label>
+    <select id="deliveryZone" onchange="updateCounter()" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+        <option value="0">Pickup from Store (0 DZD)</option>
+        <option value="100">Tébessa Center (100 DZD)</option>
+        <option value="250">El Hammamet / Bekkaria (250 DZD)</option>
+        <option value="400">El Aouinet / Morsott (400 DZD)</option>
+        <option value="600">Cheria / Bir el Ater (600 DZD)</option>
+    </select>
+</div>
         <div class="cart-footer" style="border-top: 2px solid #c59e4b; padding-top: 20px;">
             <div style="background: #f9f6f0; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                 <p style="margin: 5px 0;">Items: <span id="itemsCount">0</span></p>
