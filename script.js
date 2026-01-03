@@ -75,9 +75,14 @@ function searchProducts() {
     });
 }
 function filterCategory(categoryName) {
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = ''; // Clear display
+    const products = [
+    { id: 1, name: "Premium Baklava", price: 1500, category: "Baklava" },
+    { id: 2, name: "Traditional Makrout", price: 1200, category: "Makrout" },
+    { id: 3, name: "Apricot Sable", price: 800, category: "Sable" },
+    { id: 4, name: "Classic Ghraibia", price: 900, category: "Ghraibia" }
+];
 
+// ... (rest of your search and filter functions)
     // Filter logic
     const filtered = (categoryName === 'All') 
         ? products 
