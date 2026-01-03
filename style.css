@@ -106,3 +106,25 @@ button:hover {
     border-color: #d1b372;
     box-shadow: 0 0 8px rgba(197, 158, 75, 0.5);
 }
+.category-menu {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cat-btn {
+    background-color: #d1b372; /* Light Sand */
+    color: #2a473c; /* Green */
+    border: 1px solid #a78336;
+    padding: 8px 15px;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.cat-btn:hover {
+    background-color: #c59e4b; /* Gold */
+    color: white;
+}

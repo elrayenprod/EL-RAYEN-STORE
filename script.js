@@ -55,10 +55,36 @@ function searchProducts() {
     });
 
     // Clear the current list and show only filtered items
-    const productList = document.getElementById('product-list');
+    const products = [
+    { id: 1, name: "Premium Baklava", price: 1500, category: "Baklava" },
+    { id: 2, name: "Traditional Makrout", price: 1200, category: "Makrout" },
+    { id: 3, name: "Apricot Sable", price: 800, category: "Sable" },
+    { id: 4, name: "Classic Ghraibia", price: 900, category: "Ghraibia" },
+    { id: 5, name: "Honey Baklava", price: 1800, category: "Baklava" }
+];
     productList.innerHTML = ''; // Clear current display
 
     filteredProducts.forEach(product => {
+        productList.innerHTML += `
+            <div class="product-card">
+                <h3>${product.name}</h3>
+                <p style="color: #a78336; font-weight: bold;">${product.price} DZD</p>
+                <button onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        `;
+    });
+}
+function filterCategory(categoryName) {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = ''; // Clear display
+
+    // Filter logic
+    const filtered = (categoryName === 'All') 
+        ? products 
+        : products.filter(p => p.category === categoryName);
+
+    // Show filtered products
+    filtered.forEach(product => {
         productList.innerHTML += `
             <div class="product-card">
                 <h3>${product.name}</h3>
