@@ -7,8 +7,51 @@
 </head>
 <body>
     <header>
+    <div class="logo-area">
+        <img src="images/logo.png" alt="EL RAYEN" class="site-logo">
         <h1>EL RAYEN</h1>
-        <p>Premium Algerian Products</p>
+    </div>
+
+    <div class="header-controls">
+        
+        <div class="dropdown">
+            <button class="dropbtn">🚚 Delivery</button>
+            <div class="dropdown-content">
+                <a href="https://www.google.com/maps/place/Tebessa,+Algeria" target="_blank">📍 Tebessa, Algeria</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">🌐 Language</button>
+            <div class="dropdown-content">
+                <button onclick="translateSite('ar')">العربية (Arabic)</button>
+                <button onclick="translateSite('fr')">Français (French)</button>
+                <button onclick="translateSite('en')">English</button>
+            </div>
+        </div>
+
+        <div class="cart-wrapper" onclick="openCart()">
+            <span class="cart-icon">🛒</span>
+            <span id="cart-counter">0</span>
+        </div>
+    </div>
+</header>
+
+<div id="cartOverlay" class="cart-overlay">
+    <div class="cart-panel">
+        <div class="cart-header">
+            <h2>Your Selection</h2>
+            <button onclick="closeCart()" class="close-btn">&times;</button>
+        </div>
+        <div id="cartItemsList">
+            <p style="text-align:center; color:gray;">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <p>Total Items: <span id="itemsCount">0</span></p>
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">Order via WhatsApp</button>
+        </div>
+    </div>
+</div>
     <header>
     <h1>EL RAYEN</h1>
     <p>Premium Algerian Products</p>

@@ -113,3 +113,51 @@ window.onload = function() {
     displayProducts(products);
     displayCart();
 };
+let myCart = [];
+
+// --- 1. CART FUNCTIONS ---
+function openCart() {
+    document.getElementById('cartOverlay').style.display = 'block';
+    renderCart();
+}
+
+function closeCart() {
+    document.getElementById('cartOverlay').style.display = 'none';
+}
+
+function addToCart(name, price) {
+    myCart.push({ name, price });
+    updateCounter();
+    alert(name + " added to cart!");
+}
+
+function updateCounter() {
+    document.getElementById('cart-counter').innerText = myCart.length;
+    document.getElementById('itemsCount').innerText = myCart.length;
+}
+
+function renderCart() {
+    const list = document.getElementById('cartItemsList');
+    if (myCart.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:gray;">Empty cart.</p>';
+        return;
+    }
+    list.innerHTML = myCart.map(item => `
+        <div style="border-bottom:1px solid #eee; padding:10px; display:flex; justify-content:space-between;">
+            <span>${item.name}</span>
+            <span style="color:#a78336; font-weight:bold;">${item.price} DZD</span>
+        </div>
+    `).join('');
+}
+
+// --- 2. TRANSLATION FUNCTION ---
+function translateSite(lang) {
+    if(lang === 'ar') {
+        alert("الموقع سيتحول إلى العربية قريبا");
+        // Logic to flip text goes here
+    } else if(lang === 'fr') {
+        alert("Le site sera traduit en Français");
+    } else {
+        alert("Site language set to English");
+    }
+}
