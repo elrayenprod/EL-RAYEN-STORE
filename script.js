@@ -1,3 +1,17 @@
+// 1. Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDl35f9ll4D0VCv5kQuCKNW03A8lZntWS0",
+    authDomain: "el-rayen-prod.firebaseapp.com",
+    projectId: "el-rayen-prod",
+    storageBucket: "el-rayen-prod.firebasestorage.app",
+    messagingSenderId: "839355411048",
+    appId: "1:839355411048:web:c879b8ec1aa2e060aaa9dd",
+    measurementId: "G-QHYMXBLB84"
+};
+
+// 2. Initialize Firebase (Compatibility Mode)
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 // ==========================================
 // 1. PRODUCT DATABASE & INITIALIZATION
 // ==========================================
@@ -13,10 +27,24 @@ const MY_SHOP_LOCATION = { lat: 35.40, lng: 8.12 }; // Tebessa coordinates
 let myCart = JSON.parse(localStorage.getItem('elRayenCart')) || [];
 
 window.onload = function() {
-    const customItems = JSON.parse(localStorage.getItem('customProducts')) || [];
-    if (customItems.length > 0) {
-        products.push(...customItems);
+    // 1. Get products from Cloud
+    db.collection("products").onSnapshot((snapshot) => {
+        let cloudProducts = [];
+        snapshot.forEach((doc) => {
+            cloudProducts.push({ id: doc.id, ...doc.data() });
+        });
+        
+        // Combine hard-coded products + cloud products
+        const allProducts = [...products, ...cloudProducts];
+        displayProducts(allProducts);
+    });
+
+    // 2. Keep your existing color settings
+    const adminColor = localStorage.getItem('elRayen_PrimaryColor');
+    if (adminColor) {
+        document.querySelector('header').style.backgroundColor = adminColor;
     }
+};
     
     const adminColor = localStorage.getItem('elRayen_PrimaryColor');
     if (adminColor) {
@@ -25,7 +53,7 @@ window.onload = function() {
 
     displayProducts(products);
     updateCounter();
-};
+
 
 // ==========================================
 // 2. CORE DISPLAY & FILTER FUNCTIONS
@@ -164,4 +192,36 @@ function sendOrder(platform) {
     const encoded = encodeURIComponent(message);
     if (platform === 'whatsapp') window.open(`https://wa.me/213784788218?text=${encoded}`);
     if (platform === 'email') window.open(`mailto:elrayenprod@outlook.fr?subject=New Order&body=${encoded}`);
+}
+function addProduct() {
+    const name = document.getElementById('pName').value;
+    const price = document.getElementById('pPrice').value;
+    const category = document.getElementById('pCat').value;
+    const status = document.getElementById('status-msg');
+
+    if (!name || !price) {
+        alert("Please enter a name and price!");
+        return;
+    }
+
+    status.innerText = "Uploading...";
+
+    // This sends the data to the 'products' folder in Firebase
+    db.collection("products").add({
+        name: name,
+        price: parseInt(price),
+        category: category,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        status.innerText = "✅ Successfully saved to Cloud!";
+        alert(name + " is now visible on the main site!");
+        // Clear inputs
+        document.getElementById('pName').value = "";
+        document.getElementById('pPrice').value = "";
+    })
+    .catch((error) => {
+        status.innerText = "❌ Error: " + error.message;
+        console.error("Firebase Error:", error);
+    });
 }
