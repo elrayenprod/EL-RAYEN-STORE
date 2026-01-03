@@ -44,24 +44,31 @@
             <button onclick="closeCart()" class="close-btn" style="font-size:30px; cursor:pointer; background:none; border:none;">&times;</button>
         </div>
 
-        <div id="cartItemsList" style="height: 60vh; overflow-y: auto; margin: 20px 0; border-top: 1px solid #eee;">
-            <p style="text-align:center; color:gray; margin-top: 20px;">Your cart is empty.</p>
+        <div id="cartItemsList"></div>
+
+        <div class="customer-info" style="padding: 15px; background: #f9f9f9; border-radius: 8px; margin-top: 10px;">
+            <h4 style="margin: 0 0 10px 0; color: #2a473c;">Order Details</h4>
+            <input type="text" id="custName" placeholder="Full Name" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
+            <input type="tel" id="custPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
+            <input type="text" id="custAddress" placeholder="Street Address / Building" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
+            
+            <div style="border-top: 1px solid #ddd; padding-top: 10px; margin-top: 5px;">
+                <button type="button" onclick="calculateDistance()" style="width: 100%; background: #2a473c; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    📍 Calculate Delivery Fee
+                </button>
+                <div id="deliveryResults" style="margin-top: 8px; font-size: 13px; font-weight: bold;">
+                    <span id="distDisplay">Distance: -- km</span> | 
+                    <span id="feeDisplay" style="color: #c59e4b;">Fee: 0 DZD</span>
+                </div>
+                <input type="hidden" id="deliveryFeeValue" value="0">
+            </div>
         </div>
-<div class="customer-info" style="padding: 15px; background: #f4f4f4; border-radius: 8px; margin-bottom: 15px;">
-    <h4 style="margin-top:0; color: #2a473c;">Order Details</h4>
-    <input type="text" id="custName" placeholder="Full Name" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
-    <input type="tel" id="custPhone" placeholder="Phone Number" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
-    <input type="text" id="custAddress" placeholder="Specific Address (Street/House)" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
-    
-    <label style="font-size: 14px; font-weight: bold;">Select Delivery Zone:</label>
-    <select id="deliveryZone" onchange="updateCounter()" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-        <option value="0">Pickup from Store (0 DZD)</option>
-        <option value="100">Tébessa Center (100 DZD)</option>
-        <option value="250">El Hammamet / Bekkaria (250 DZD)</option>
-        <option value="400">El Aouinet / Morsott (400 DZD)</option>
-        <option value="600">Cheria / Bir el Ater (600 DZD)</option>
-    </select>
-</div>
+
+        <div class="cart-footer" style="margin-top: 15px;">
+            <p style="font-size: 1.3rem; font-weight: bold; text-align: center;">Total: <span id="cartTotalPrice">0</span> DZD</p>
+            <button class="btn-wa" onclick="sendOrder('whatsapp')" style="width:100%; background:#25D366; color:white; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-bottom:10px;">💬 Order via WhatsApp</button>
+        </div>
+
         <div class="cart-footer" style="border-top: 2px solid #c59e4b; padding-top: 20px;">
             <div style="background: #f9f6f0; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                 <p style="margin: 5px 0;">Items: <span id="itemsCount">0</span></p>

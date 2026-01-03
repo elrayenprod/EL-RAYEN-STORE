@@ -249,3 +249,49 @@ function translateSite(lang) {
         alert("Site language set to English");
     }
 }
+function calculateDistance() {
+    const distText = document.getElementById('distDisplay');
+    const feeText = document.getElementById('feeDisplay');
+
+    // 1. Check if the user allows location
+    if (!navigator.geolocation) {
+        return alert("Your browser does not support location services.");
+    }
+
+    distText.innerText = "Finding your location...";
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+
+        // 2. Haversine Formula (Calculating distance between two points)
+        const R = 6371; // Earth's radius
+        const dLat = (userLat - MY_SHOP_LOCATION.lat) * Math.PI / 180;
+        const dLon = (userLng - MY_SHOP_LOCATION.lng) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(MY_SHOP_LOCATION.lat * Math.PI / 180) * Math.cos(userLat * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        const distance = R * c; 
+
+        // 3. THE PRICE LOGIC (30 DZD per KM)
+        let calculatedFee = Math.round(distance * 30);
+        
+        // --- START MINIMUM FEE CHECK ---
+        if (calculatedFee < 50) {
+            calculatedFee = 50; // If they are next door, it's still 50 DZD
+        }
+        // --- END MINIMUM FEE CHECK ---
+
+        // 4. UPDATE THE UI
+        document.getElementById('deliveryFeeValue').value = calculatedFee;
+        distText.innerText = `Distance: ${distance.toFixed(2)} km`;
+        feeText.innerText = `Delivery Fee: ${calculatedFee} DZD`;
+        
+        // This triggers the total price update
+        updateCounter();
+        
+    }, (error) => {
+        alert("Please allow location access so we can calculate your delivery fee.");
+        distText.innerText = "Location Error";
+    });
+}

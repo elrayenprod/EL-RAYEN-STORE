@@ -246,12 +246,19 @@ header {
 }
 
 .cart-panel {
-    position: absolute;
-    right: 0; top: 0;
-    width: 350px; height: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 350px;
+    height: 100vh; /* Full height of the screen */
     background: white;
     padding: 20px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    z-index: 9999;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+
+    /* THE MAGIC FOR THE FOOTER: */
+    display: flex;
+    flex-direction: column; 
 }
 .order-options {
     display: flex;
@@ -278,4 +285,16 @@ header {
 .order-options button:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+#cartItemsList {
+    flex-grow: 1; /* This pushes the footer to the bottom */
+    overflow-y: auto; /* Allows scrolling if you have many items */
+    margin: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+.cart-footer {
+    margin-top: auto; /* Final insurance to stay at the bottom */
+    padding-top: 15px;
+    border-top: 2px solid #2a473c;
+    background: white;
 }
