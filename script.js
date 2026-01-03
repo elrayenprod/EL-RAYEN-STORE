@@ -132,8 +132,51 @@ function addToCart(name, price) {
 }
 
 function updateCounter() {
+    let total = 0;
+    myCart.forEach(item => {
+        total += parseInt(item.price);
+    });
+
     document.getElementById('cart-counter').innerText = myCart.length;
     document.getElementById('itemsCount').innerText = myCart.length;
+    document.getElementById('cartTotalPrice').innerText = total;
+}
+
+function sendOrder(platform) {
+    if (myCart.length === 0) return alert("Please add sweets to your cart first!");
+
+    // 1. Build the Message
+    let total = document.getElementById('cartTotalPrice').innerText;
+    let message = "🍩 *NEW ORDER FROM EL RAYEN STORE*\n";
+    message += "----------------------------\n";
+    
+    myCart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name} - ${item.price} DZD\n`;
+    });
+
+    message += "----------------------------\n";
+    message += `*TOTAL AMOUNT:* ${total} DZD\n`;
+    message += "📍 *Location:* Tebessa, Algeria\n";
+
+    // 2. Save to Admin App (Local Database)
+    let salesData = JSON.parse(localStorage.getItem('elRayenOrders')) || [];
+    salesData.push({ time: new Date().toLocaleString(), total: total, count: myCart.length });
+    localStorage.setItem('elRayenOrders', JSON.stringify(salesData));
+
+    // 3. Send to Platform
+    const encoded = encodeURIComponent(message);
+    const myPhone = "213784788218"; // <-- PUT YOUR WHATSAPP NUMBER HERE
+    const myEmail = "elrayenprod@outlook.fr"; // <-- PUT YOUR EMAIL HERE
+
+    if (platform === 'whatsapp') {
+        window.open(`https://wa.me/${myPhone}?text=${encoded}`);
+    } else if (platform === 'email') {
+        window.open(`mailto:${myEmail}?subject=New Sweet Order&body=${encoded}`);
+    } else if (platform === 'instagram') {
+        navigator.clipboard.writeText(message);
+        alert("Order details copied! Paste them in our Instagram DM.");
+        window.open("https://www.instagram.com/your_username/"); // <-- PUT YOUR IG LINK HERE
+    }
 }
 
 function renderCart() {

@@ -100,6 +100,25 @@
                     <p style="color: #666;">No copyright violations or user reports found for your store.</p>
                 </div>
             </div>
+            <div id="reports" class="page" style="display:none;">
+    <h2 class="section-title">Sales & Orders Tracker</h2>
+    <button onclick="refreshSales()">🔄 Refresh Sales List</button>
+    <div id="salesDisplay" style="margin-top:20px;"></div>
+</div>
+
+<script>
+    function refreshSales() {
+        const sales = JSON.parse(localStorage.getItem('elRayenOrders')) || [];
+        const display = document.getElementById('salesDisplay');
+        display.innerHTML = sales.reverse().map(s => `
+            <div class="card">
+                <p>📅 <strong>Date:</strong> ${s.time}</p>
+                <p>💰 <strong>Total:</strong> ${s.total} DZD</p>
+                <p>📦 <strong>Items:</strong> ${s.count}</p>
+            </div>
+        `).join('');
+    }
+</script>
 
             <div id="support" class="page" style="display:none;">
                 <h2>Support & Legal</h2>

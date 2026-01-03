@@ -253,3 +253,29 @@ header {
     padding: 20px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.3);
 }
+.order-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.order-options button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.btn-wa { background-color: #25D366; } /* WhatsApp Green */
+.btn-mail { background-color: #ea4335; } /* Gmail Red */
+.btn-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+.order-options button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

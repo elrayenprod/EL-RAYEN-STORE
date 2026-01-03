@@ -40,15 +40,27 @@
 <div id="cartOverlay" class="cart-overlay">
     <div class="cart-panel">
         <div class="cart-header">
-            <h2>Your Selection</h2>
-            <button onclick="closeCart()" class="close-btn">&times;</button>
+            <h2 style="color: #2a473c;">🛒 Your Selection</h2>
+            <button onclick="closeCart()" class="close-btn" style="font-size:30px; cursor:pointer; background:none; border:none;">&times;</button>
         </div>
-        <div id="cartItemsList">
-            <p style="text-align:center; color:gray;">Your cart is empty.</p>
+
+        <div id="cartItemsList" style="height: 60vh; overflow-y: auto; margin: 20px 0; border-top: 1px solid #eee;">
+            <p style="text-align:center; color:gray; margin-top: 20px;">Your cart is empty.</p>
         </div>
-        <div class="cart-footer">
-            <p>Total Items: <span id="itemsCount">0</span></p>
-            <button class="checkout-btn" onclick="checkoutWhatsApp()">Order via WhatsApp</button>
+
+        <div class="cart-footer" style="border-top: 2px solid #c59e4b; padding-top: 20px;">
+            <div style="background: #f9f6f0; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <p style="margin: 5px 0;">Items: <span id="itemsCount">0</span></p>
+                <p style="margin: 5px 0; font-size: 1.4rem; color: #2a473c; font-weight: bold;">
+                    Total: <span id="cartTotalPrice">0</span> DZD
+                </p>
+            </div>
+            
+            <div class="order-options">
+                <button class="btn-wa" onclick="sendOrder('whatsapp')">💬 Order via WhatsApp</button>
+                <button class="btn-mail" onclick="sendOrder('email')">📧 Order via Email</button>
+                <button class="btn-ig" onclick="sendOrder('instagram')">📸 Order via Instagram</button>
+            </div>
         </div>
     </div>
 </div>
