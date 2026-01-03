@@ -3,27 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EL RAYEN | Management Suite</title>
+    <title>EL RAYEN Control | Management Suite</title>
     <style>
         :root { --gold: #c59e4b; --dark-green: #2a473c; --deep-green: #3d6757; --white: #ffffff; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; overflow: hidden; }
 
-        /* INTRO VIDEO SPLASH */
+        /* INTRO SPLASH */
         #splash-screen {
             position: fixed; width: 100%; height: 100vh; background: var(--dark-green);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.8s ease-in-out;
         }
-        .logo-circle { width: 140px; height: 140px; border: 4px solid var(--gold); border-radius: 50%; background: white; padding: 5px; animation: pulse 2s infinite; }
+        .logo-circle { 
+            width: 140px; height: 140px; border: 4px solid var(--gold); 
+            border-radius: 50%; background: white; padding: 5px; 
+            animation: pulse 2s infinite; display: flex; align-items: center; justify-content: center;
+        }
         .logo-circle img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+        /* Fallback if image is missing */
+        .logo-fallback { font-size: 60px; font-weight: bold; color: var(--dark-green); }
+
         @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
 
         /* MAIN APP LAYOUT */
         #main-app { display: none; height: 100vh; width: 100vw; }
         .sidebar { width: 280px; background: var(--dark-green); color: white; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0,0,0,0.2); }
         .sidebar-header { padding: 30px; text-align: center; border-bottom: 1px solid var(--deep-green); }
-        .sidebar-header img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; background: white; }
         
+        /* Fixed Sidebar Logo */
+        .admin-logo-small { 
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); 
+            margin: 0 auto 10px; background: white; display: flex; align-items: center; 
+            justify-content: center; overflow: hidden;
+        }
+        .admin-logo-small img { width: 100%; height: 100%; object-fit: contain; }
+
         .nav-menu { flex-grow: 1; padding: 20px 10px; overflow-y: auto; }
         .nav-btn { width: 100%; background: transparent; border: none; text-align: left; color: white; padding: 15px; margin-bottom: 5px; cursor: pointer; border-radius: 8px; transition: 0.3s; display: flex; align-items: center; font-size: 15px; }
         .nav-btn:hover { background: var(--deep-green); color: var(--gold); }
@@ -41,16 +55,20 @@
 <body>
 
     <div id="splash-screen">
-        <div class="logo-circle"><img src="images/logo.png" alt="EL RAYEN"></div>
-        <h1 style="color: var(--gold); letter-spacing: 5px; margin-top: 20px;">EL RAYEN</h1>
-        <p style="color: white; opacity: 0.7;">SECURE ACCESS STARTING...</p>
+        <div class="logo-circle">
+            <img src="images/logo.png" alt="R" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'logo-fallback\'>R</span>'">
+        </div>
+        <h1 style="color: var(--gold); letter-spacing: 5px; margin-top: 20px; text-transform: uppercase;">EL RAYEN Control</h1>
+        <p style="color: white; opacity: 0.7;">AUTHORIZED ACCESS ONLY</p>
     </div>
 
     <div id="main-app">
         <div class="sidebar">
             <div class="sidebar-header">
-                <img src="images/logo.png" alt="Logo">
-                <div style="color: var(--gold); font-weight: bold; font-size: 18px;">ADMIN SUITE</div>
+                <div class="admin-logo-small">
+                    <img src="images/logo.png" alt="R" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:var(--dark-green);font-weight:bold\'>R</span>'">
+                </div>
+                <div style="color: var(--gold); font-weight: bold; font-size: 16px; letter-spacing: 1px;">EL RAYEN CONTROL</div>
             </div>
             <div class="nav-menu">
                 <button class="nav-btn active" onclick="showPage('mgmt')">🏠 Dashboard</button>
@@ -58,58 +76,43 @@
                 <button class="nav-btn" onclick="showPage('sales')">💰 Sales & Orders</button>
                 <button class="nav-btn" onclick="showPage('visibility')">👁️ Site Visibility</button>
                 <button class="nav-btn" onclick="showPage('security')">🔒 Security</button>
-                <button class="nav-btn" onclick="showPage('support')">🛠️ Support</button>
             </div>
-            <div style="padding: 20px; text-align: center; opacity: 0.5; font-size: 11px;">EL RAYEN v1.2.0</div>
+            <div style="padding: 20px; text-align: center; opacity: 0.4; font-size: 10px;">EL RAYEN SYSTEM v2.0</div>
         </div>
 
         <div class="content-area">
             <div id="mgmt" class="page">
-                <h2>Site Dashboard</h2>
+                <h2>Control Dashboard</h2>
                 <div class="card">
-                    <h3>Notifications</h3>
-                    <p>Alert me for new orders: <input type="checkbox" checked style="width: auto;"></p>
-                    <button class="action-btn" onclick="alert('Settings Saved')" style="width: auto;">Save Preferences</button>
+                    <h3>System Status</h3>
+                    <p>Cloud Sync: <span style="color: green; font-weight: bold;">ACTIVE</span></p>
+                    <p>Database: <span style="color: green; font-weight: bold;">CONNECTED</span></p>
                 </div>
             </div>
 
             <div id="products" class="page" style="display:none;">
                 <h2>Product Management</h2>
                 <div class="card">
-                    <h3>Add New Item to Website</h3>
-                    <input type="text" id="pName" placeholder="Product Name (e.g., Honey Baklava)">
-                    <input type="number" id="pPrice" placeholder="Price in DZD">
+                    <h3>Add New Item</h3>
+                    <input type="text" id="pName" placeholder="Product Name">
+                    <input type="number" id="pPrice" placeholder="Price (DZD)">
                     <select id="pCat">
                         <option value="Baklava">Baklava</option>
                         <option value="Makrout">Makrout</option>
                         <option value="Sable">Sable</option>
-                        <option value="Ghraibia">Ghraibia</option>
                     </select>
-                    <button class="action-btn" onclick="addProduct()">🚀 Upload to Cloud Database</button>
+                    <button class="action-btn" onclick="addProduct()">🚀 Save to Website</button>
                     <p id="status-msg" style="margin-top: 15px; font-weight: bold; color: var(--dark-green);"></p>
                 </div>
             </div>
 
             <div id="sales" class="page" style="display:none;">
-                <h2>Sales & Orders Tracker</h2>
-                <button class="action-btn" onclick="refreshSales()" style="width: auto; margin-bottom: 20px;">🔄 Refresh Sales List</button>
-                <div id="salesDisplay"></div>
+                <h2>Recent Orders</h2>
+                <div id="salesDisplay"><p>Waiting for orders...</p></div>
             </div>
 
-            <div id="visibility" class="page" style="display:none;">
-                <h2>Site Visibility</h2>
-                <div class="card"><p>Site Status: <strong style="color: green;">ONLINE</strong></p></div>
-            </div>
-
-            <div id="security" class="page" style="display:none;">
-                <h2>Security</h2>
-                <div class="card"><button class="action-btn" style="background:#d9534f" onclick="location.reload()">🚪 Log Out</button></div>
-            </div>
-
-            <div id="support" class="page" style="display:none;">
-                <h2>Support & Legal</h2>
-                <div class="card"><p>Created for EL RAYEN Sweets - Algiers.</p></div>
-            </div>
+            <div id="visibility" class="page" style="display:none;"><h2>Site Visibility</h2><div class="card">Site is Public</div></div>
+            <div id="security" class="page" style="display:none;"><h2>Security Settings</h2><div class="card"><button class="action-btn" style="background:#d9534f" onclick="location.reload()">Reset Session</button></div></div>
         </div>
     </div>
 
@@ -117,7 +120,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // 1. Firebase Initialization (From your screenshot 1.jpg)
         const firebaseConfig = {
             apiKey: "AIzaSyDl35f9ll4D0VCv5kQuCKNW03A8lZntWS0",
             authDomain: "el-rayen-prod.firebaseapp.com",
@@ -127,16 +129,14 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 2. Add Product to Firebase
         function addProduct() {
             const name = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
             const category = document.getElementById('pCat').value;
             const msg = document.getElementById('status-msg');
 
-            if (!name || !price) return alert("Please fill Name and Price!");
-
-            msg.innerText = "⏳ Connecting to Google Cloud...";
+            if (!name || !price) return alert("Fill Name and Price!");
+            msg.innerText = "⏳ Uploading...";
 
             db.collection("products").add({
                 name: name,
@@ -144,41 +144,25 @@
                 category: category,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-                msg.innerText = "✅ Success! " + name + " is now live.";
+                msg.innerText = "✅ Successfully Added!";
                 document.getElementById('pName').value = "";
                 document.getElementById('pPrice').value = "";
-            }).catch(err => {
-                msg.innerText = "❌ Error: " + err.message;
-            });
+            }).catch(err => msg.innerText = "❌ Error: " + err.message);
         }
 
-        // 3. Navigation Control
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(pageId).style.display = 'block';
             event.currentTarget.classList.add('active');
         }
 
-        // 4. Local Sales Refresh (Old system)
-        function refreshSales() {
-            const sales = JSON.parse(localStorage.getItem('elRayenOrders')) || [];
-            const display = document.getElementById('salesDisplay');
-            display.innerHTML = sales.reverse().map(s => `
-                <div class="card">
-                    <p>📅 <strong>Date:</strong> ${s.time}</p>
-                    <p>💰 <strong>Total:</strong> ${s.total} DZD</p>
-                </div>
-            `).join('');
-        }
-
-        // Splash Screen Timer
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('splash-screen').style.opacity = '0';
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('splash-screen').style.display = 'none';
+                    splash.style.display = 'none';
                     document.getElementById('main-app').style.display = 'flex';
                 }, 800);
             }, 2000);
