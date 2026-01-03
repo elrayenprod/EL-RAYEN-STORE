@@ -1,5 +1,5 @@
 // ==========================================
-// 1. LOCAL DATABASE (Products & Categories)
+// 1. PRODUCT DATABASE (Algerian Sweets)
 // ==========================================
 const products = [
     { id: 1, name: "Premium Baklava", price: 1500, category: "Baklava" },
@@ -12,13 +12,18 @@ const products = [
 const productList = document.getElementById('product-list');
 
 // ==========================================
-// 2. DISPLAY LOGIC
+// 2. CORE DISPLAY FUNCTION
 // ==========================================
-
-// Function to render products to the screen
 function displayProducts(productsToDisplay) {
-    productList.innerHTML = ''; // Clear current display
+    // Clear the current display
+    productList.innerHTML = ''; 
     
+    // If no products found, show a message
+    if (productsToDisplay.length === 0) {
+        productList.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No products found.</p>';
+        return;
+    }
+
     productsToDisplay.forEach(product => {
         productList.innerHTML += `
             <div class="product-card">
@@ -31,17 +36,17 @@ function displayProducts(productsToDisplay) {
 }
 
 // ==========================================
-// 3. SEARCH & FILTER LOGIC
+// 3. SEARCH & CATEGORY FILTERS
 // ==========================================
 
-// Search Bar Function
+// Function for the Search Bar
 function searchProducts() {
     let input = document.getElementById('searchBar').value.toLowerCase();
     const filtered = products.filter(p => p.name.toLowerCase().includes(input));
     displayProducts(filtered);
 }
 
-// Category Button Function
+// Function for Category Buttons
 function filterCategory(categoryName) {
     const filtered = (categoryName === 'All') 
         ? products 
@@ -50,24 +55,36 @@ function filterCategory(categoryName) {
 }
 
 // ==========================================
-// 4. SHOPPING CART LOGIC (Local Database)
+// 4. SHOPPING CART (LocalStorage Database)
 // ==========================================
 
 function addToCart(productId) {
+    // Get existing cart or create empty one
     let cart = JSON.parse(localStorage.getItem('elRayenCart')) || [];
+    
+    // Find the product in our database
     const item = products.find(p => p.id === productId);
+    
+    // Add to cart and save to local database
     cart.push(item);
     localStorage.setItem('elRayenCart', JSON.stringify(cart));
+    
+    // Update the UI
     displayCart();
+    alert(item.name + " added to your cart!");
 }
 
 function displayCart() {
     const cartItems = document.getElementById('cart-items');
     const totalSpan = document.getElementById('total-price');
+    
+    // Load from local database
     let cart = JSON.parse(localStorage.getItem('elRayenCart')) || [];
     
+    // Update cart list HTML
     cartItems.innerHTML = cart.map(item => `<p>${item.name} - ${item.price} DZD</p>`).join('');
     
+    // Calculate total price
     let total = cart.reduce((sum, item) => sum + item.price, 0);
     totalSpan.innerText = total;
 }
@@ -78,8 +95,10 @@ function clearCart() {
 }
 
 // ==========================================
-// 5. INITIALIZE SITE
+// 5. SITE INITIALIZATION
 // ==========================================
-// This runs as soon as the page loads
-displayProducts(products);
-displayCart();
+// This runs automatically when the page loads
+window.onload = function() {
+    displayProducts(products);
+    displayCart();
+};
